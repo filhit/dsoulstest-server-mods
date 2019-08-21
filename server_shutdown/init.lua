@@ -1,5 +1,5 @@
 local ie = minetest.request_insecure_environment()
-assert(ie, "Mod minetest_server_shutdown requires insecure environment. Add secure.trusted_mods = minetest_server_shutdown to minetest.conf")
+assert(ie, "Mod server_shutdown requires insecure environment. Add secure.trusted_mods = server_shutdown to minetest.conf")
 
 local loopInterval = 60
 local loopsWithNooneBeforeShutdown = 15
@@ -17,10 +17,10 @@ end
 local function countAndShutdown()
   if getPlayersCount() == 0 then
     if loopsLeft == 0 then
-      minetest.log("Noone is playing. Shutting down.")
+      minetest.log("action", "[server_shutdown] Noone is playing. Shutting down.")
       ie.os.execute("/sbin/shutdown now")
     else
-      minetest.log("Noone is playing. Shutting down in " .. loopsLeft * loopInterval .. " seconds.")
+      minetest.log("warning", "[server_shutdown] Noone is playing. Shutting down in " .. loopsLeft * loopInterval .. " seconds.")
       loopsLeft = loopsLeft - 1
     end
   else
@@ -34,3 +34,4 @@ local function loop()
 end
 
 minetest.after(loopInterval, loop)
+minetest.log("action", "[server_shutdown] loaded!")

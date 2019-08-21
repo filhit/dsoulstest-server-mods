@@ -1,8 +1,11 @@
 local modpath = minetest.get_modpath("server_sounds")
 local soundsdir = modpath.."/sounds"
 local soundfiles = minetest.get_dir_list(soundsdir)
-minetest.log("minetest_sounds loaded")
+local logmessage = "Found sound files:"
 for _,file in pairs(soundfiles) do
-  minetest.log(file)
+  logmessage = logmessage .. " " .. file
 end
+
+minetest.log("action", "[server_sounds] " .. logmessage)
+minetest.log("action", "[server_sounds] loaded!")
 
