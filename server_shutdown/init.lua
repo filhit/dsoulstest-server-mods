@@ -18,7 +18,7 @@ local function countAndShutdown()
   if getPlayersCount() == 0 then
     if loopsLeft == 0 then
       minetest.log("action", "[server_shutdown] Noone is playing. Shutting down.")
-      ie.os.execute("/sbin/shutdown now")
+      ie.os.execute("/usr/bin/sudo /sbin/shutdown now")
     else
       minetest.log("warning", "[server_shutdown] Noone is playing. Shutting down in " .. loopsLeft * loopInterval .. " seconds.")
       loopsLeft = loopsLeft - 1
