@@ -31,13 +31,16 @@ local function countAndShutdown()
   end
 end
 
+local function callback()
+end
+
 local function reportPlayersCount()
   http.fetch({
     url = "https://minetest.westeurope.cloudapp.azure.com:30001",
     post_data = minetest.write_json({
       players = getPlayersCount()
     })
-  })
+  }, callback)
 end
 
 local function loop()
