@@ -1,5 +1,8 @@
 local ie = minetest.request_insecure_environment()
-assert(ie, "Mod server_shutdown requires insecure environment. Add secure.trusted_mods = server_shutdown to minetest.conf")
+local http = minetest.request_http_api()
+local configurationMessage = "Mod server_shutdown requires insecure environment. Add secure.trusted_mods = server_shutdown to minetest.conf"
+assert(ie, configurationMessage)
+assert(http, configurationMessage)
 
 local loopInterval = 60
 local loopsWithNooneBeforeShutdown = 15
@@ -28,10 +31,20 @@ local function countAndShutdown()
   end
 end
 
+local function reportPlayersCount()
+  http.fetch({
+    url = "https://minetest.westeurope.cloudapp.azure.com:30001",
+    post_data = minetest.write_json({
+      players = getPlayersCount()
+    })
+  })
+end
+
 local function loop()
   countAndShutdown()
+  reportPlayersCount()
   minetest.after(loopInterval, loop)
 end
 
-minetest.after(loopInterval, loop)
 minetest.log("action", "[server_shutdown] loaded!")
+loop()
