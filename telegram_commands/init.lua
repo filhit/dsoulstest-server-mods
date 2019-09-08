@@ -2,6 +2,7 @@ local ie = minetest.request_insecure_environment()
 local configurationMessage = "Mod telegram_commands requires insecure environment. Add secure.trusted_mods = telegram_commands to minetest.conf"
 assert(ie, configurationMessage)
 local shutdown_threshold = 10
+local chat_id = minetest.settings:get("telegram.chatid")
 
 local function get_command_args(command, msg)
   return string.sub(msg.text, string.len("\\" .. command .. " ") + 1)
@@ -33,5 +34,25 @@ telegram.register_command(shutdown_command, function(msg)
     minetest.log("action", "[telegram_commands] received command to shut down " .. seconds_ago .. " seconds ago. The message is stale. Ignoring.")
   end
 end)
+
+minetest.register_chatcommand("where", {
+  privs = {
+      shout = true,
+  },
+  func = function(name, param)
+    local player = minetest.get_player_by_name(name)
+    if player then
+      local pos = player:get_pos()
+      local message = "<" .. name .. ">: " .. pos
+      if param then
+        message = message .. " " .. param
+      end
+      if chat_id then
+        telegram.send_message(chat_id, message)
+      return true, message
+    end
+    return false
+  end
+})
 
 minetest.log("action", "[telegram_commands] loaded!")
