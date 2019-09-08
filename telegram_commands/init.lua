@@ -43,12 +43,13 @@ minetest.register_chatcommand("where", {
     local player = minetest.get_player_by_name(name)
     if player then
       local pos = player:get_pos()
-      local message = "<" .. name .. ">: " .. pos
+      local message = "<" .. name .. ">: " .. pos.x .. ", " .. pos.y .. ", " .. pos.z
       if param then
         message = message .. " " .. param
       end
       if chat_id then
         telegram.send_message(chat_id, message)
+      end
       return true, message
     end
     return false
