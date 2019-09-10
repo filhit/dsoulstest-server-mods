@@ -8,6 +8,11 @@ local function get_command_args(command, msg)
   return string.sub(msg.text, string.len("\\" .. command .. " ") + 1)
 end
 
+local function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 local msg_command = "msg"
 telegram.register_command(msg_command, function(msg)     
   minetest.chat_send_all(get_command_args(msg_command, msg))
@@ -43,7 +48,7 @@ minetest.register_chatcommand("where", {
     local player = minetest.get_player_by_name(name)
     if player then
       local pos = player:get_pos()
-      local message = "<" .. name .. ">: " .. math.floor(pos.x) .. ", " .. math.floor(pos.y) .. ", " .. math.floor(pos.z)
+      local message = "<" .. name .. ">: " .. round(pos.x) .. ", " .. round(pos.y) .. ", " .. round(pos.z)
       if param then
         message = message .. " " .. param
       end
