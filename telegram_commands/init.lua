@@ -55,7 +55,8 @@ minetest.register_chatcommand("where", {
       if chat_id then
         telegram.send_message(chat_id, message)
       end
-      return true, message
+      minetest.chat_send_all(message)
+      return true
     end
     return false
   end
