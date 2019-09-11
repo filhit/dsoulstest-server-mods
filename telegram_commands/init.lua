@@ -48,7 +48,7 @@ minetest.register_chatcommand("where", {
     local player = minetest.get_player_by_name(name)
     if player then
       local pos = player:get_pos()
-      local message = "<" .. name .. ">: " .. round(pos.x) .. ", " .. round(pos.y) .. ", " .. round(pos.z)
+      local message = "<" .. name .. "> " .. round(pos.x) .. ", " .. round(pos.y) .. ", " .. round(pos.z)
       if param then
         message = message .. " " .. param
       end
