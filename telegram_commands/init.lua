@@ -34,7 +34,7 @@ telegram.register_command(shutdown_command, function(msg)
     if message then
       minetest.request_shutdown(message)
     end
-    ie.os.execute("/usr/bin/sudo /sbin/shutdown now")
+    ie.os.execute("/home/filhit/dsoulstest-server/shutdown.sh")
   else
     minetest.log("action", "[telegram_commands] received command to shut down " .. seconds_ago .. " seconds ago. The message is stale. Ignoring.")
   end
